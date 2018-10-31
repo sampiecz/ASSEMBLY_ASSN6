@@ -1,0 +1,117 @@
+//KC03O8EA JOB ,'SAM PIECZ',MSGCLASS=H
+//STEP1 EXEC PGM=ASSIST
+//STEPLIB DD DSN=KC02293.ASSIST.LOADLIB,DISP=SHR
+//SYSPRINT DD SYSOUT=*
+//SYSIN DD *
+***************************************************
+* ASSIGNMENT SIX
+*
+* NAME: SAMUEL PIECZ
+*
+* CSECT: MAIN
+*
+* REGISTER USAGE:
+*
+***************************************************
+MAIN     CSECT
+*
+***< ENTRY LINKAGE>
+*
+         STM   14,12,12(13)
+         LR    12,15
+         USING MAIN,12
+         LA    14,MAINSAVE
+         ST    14,8(0,13)
+         ST    13,4(0,14)
+         LR    13,14
+*
+***< CALL BUILD SUBROUTINE AND PASS IN PARMS>
+*
+*
+***< EXIT LINKAGE>
+*
+         L     13,4(0,13)
+         LM    14,12,12(13)
+         BR    14
+*
+***< MAIN LTORGS>
+*
+         LTORG
+*
+***< RESTORE REGISTERS >
+*
+MAINSAVE DS    18F
+***************************************************
+*
+* CSECT: BUILD
+*
+* REGISTER USAGE:
+*
+***************************************************
+BUILD    CSECT
+*
+***< ENTRY LINKAGE>
+*
+         STM   14,12,12(13)
+         LR    12,15
+         USING BUILD,12
+         LA    14,BSAVE
+         ST    13,4(0,14)
+         ST    14,8(0,13)
+         LR    13,14
+*
+***< START LOGIC>
+*
+*
+***< EXIT LINKAGE >
+*
+         L     13,4(0,13)
+         LM    14,12,12(13)
+         BR    14
+*
+***< LTORG FOR BUILD>
+*
+         LTORG
+*
+***< RESTORE REGISTERS>
+*
+BSAVE    DS    18F
+***************************************************
+*
+* CSECT: PRINT
+*
+* REGISTER USAGE:
+*
+***************************************************
+PRINT    CSECT
+*
+***< ENTRY LINKAGE>
+*
+         STM   14,12,12(13)
+         LR    12,15
+         USING PRINT,12
+         LA    14,PSAVE
+         ST    13,4(0,14)
+         ST    14,8(0,13)
+         LR    13,14
+*
+***< START LOGIC>
+*
+*
+***< EXIT LINKAGE >
+*
+         L     13,4(0,13)
+         LM    14,12,12(13)
+         BR    14
+*
+***< LTORG FOR PRINT>
+*
+         LTORG
+*
+***< RESTORE REGISTERS>
+*
+PSAVE    DS    18F
+         END   MAIN
+/*
+//FT05F001  DD  DSN=KC02314.AUTUMN18.CSCI360.HW6DATA,DISP=SHR
+//
