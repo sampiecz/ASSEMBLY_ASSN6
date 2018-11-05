@@ -10,30 +10,30 @@
 *
 * CSECT: MAIN
 *
-* REGISTER USAGE:
+* REGISTER USAGE: Not enough time to specify.
 *
 ***************************************************
 *
 ***< BUILD DSECT >
 *
-BLABL    DSECT
-FNAME    DS    10C
-LNAME    DS    10C
-IDNUM    DS    8C
-ACTBAL   DS    PL4
+BLABL    DSECT                         Labels basically
+FNAME    DS    10C                     Labels basically
+LNAME    DS    10C                     No real logic
+IDNUM    DS    8C                      Just makes it so you don't
+ACTBAL   DS    PL4                     have to use offsets
 *
 ***< TRANS DSECT >
 *
-TLABL    DSECT
-CID      DS    8C
-         DS    2C
-CTYPE    DS    1C
-         DS    2C
-CAMOUNT  DS    7C
-         DS    2C
-CDAY     DS    2C
-CMONTH   DS    2C
-CYEAR    DS    4C
+TLABL    DSECT                         More dsect action
+CID      DS    8C                      Who even uses offsets
+         DS    2C                      they are so out of style
+CTYPE    DS    1C                      dsects are so hot right now
+         DS    2C                      they are the new offsets
+CAMOUNT  DS    7C                      Okay.
+         DS    2C                      I think you get the point.
+CDAY     DS    2C                      Do I really need to keep
+CMONTH   DS    2C                      commenting these. They make
+CYEAR    DS    4C                      it easier to reference data.
 *
 ***< MAIN >
 *
@@ -41,70 +41,70 @@ MAIN     CSECT
 *
 ***< ENTRY LINKAGE>
 *
-         STM   14,12,12(13)
-         LR    12,15
-         USING MAIN,12
-         LA    14,MAINSAVE
-         ST    14,8(0,13)
+         STM   14,12,12(13)            Another situation where I think
+         LR    12,15                   you should understand that
+         USING MAIN,12                 I already know what this does.
+         LA    14,MAINSAVE             The linkage code allows you to
+         ST    14,8(0,13)              break code down intosubroutines
          ST    13,4(0,14)
          LR    13,14
 *
 ***< START LOGIC >
 *
-         LA    1,BPARMS                LOAD PARAMS INTO R1
-         L     15,=V(BUILD)            LOAD SUBROUTINE INTO R15
-         BALR  14,15                   BRANCH TO BUILD SUBROUTINE
-         LA    1,PPARMS
-         L     15,=V(PRINT)
-         BALR  14,15
-         LA    1,TPARMS
-         L     15,=V(TRANS)
-         BALR  14,15
-         LA    1,PPARMS2
-         L     15,=V(PRINT)
-         BALR  14,15
+         LA    1,BPARMS                Load params into R1
+         L     15,=V(BUILD)            Load subroutine into R15
+         BALR  14,15                   Branch to build subroutine
+         LA    1,PPARMS                Load print parameters in
+         L     15,=V(PRINT)            Load print subroutine into r15
+         BALR  14,15                   Branch to R15
+         LA    1,TPARMS                Load in trans parameters
+         L     15,=V(TRANS)            Load in trans subroutine
+         BALR  14,15                   Branch to trans subroutine
+         LA    1,PPARMS2               Load print parameters
+         L     15,=V(PRINT)            Load print subroutine
+         BALR  14,15                   Branch to print subroutine
+*
+***< EXIT LINKAGE >
+*
+         L     13,4(0,13)              Exit linkage code. Never
+         LM    14,12,12(13)            changes. Switches control
+         BR    14                      back to main for more subrtnes.
 *
 ***< MAIN LTORGS>
 *
          LTORG
          ORG MAIN+((*-MAIN+31)/32)*32
-TABLE    DS    32CL38                  TABLE FOR STORAGE
-EOT      DS    F                       END OF TABLE
-CAPTION  DS    F                       STORAGE FOR CAPTION
-NUM1     DC    F'1'
-NUM2     DC    F'2'
-PAGECTR  DC    PL2'0'                  STORAGE FOR PAGE COUNTER
-BUFFER   DS    80C                     BUFFER FOR INPUT DATA
-BPARMS   DC    A(TABLE)                ADDRESS FOR TABLE
-         DC    A(EOT)                  ADDRESS END OF TABLE
-         DC    A(BUFFER)               ADDRESS FOR BUFFER
-PPARMS   DC    A(TABLE)                ADDRESS FOR TABLE
-         DC    A(EOT)                  ADDRESS FOR END OF TABLE
-         DC    A(NUM1)                 ADDRESS FOR CAPTION
-         DC    A(PAGECTR)              ADDRESS FOR PAGE COUNTER
-PPARMS2  DC    A(TABLE)
-         DC    A(EOT)
-         DC    A(NUM2)
-         DC    A(PAGECTR)
-TPARMS   DC    A(TABLE)                ADDRESS FOR TABLE
-         DC    A(EOT)                  ADDRESS FOR END OF TABLE
-         DC    A(BUFFER)               ADDRESS FOR INPUT BUFFER
-         DC    A(PAGECTR)              ADDRESS FOR PAGE COUNTER
-*
-***< EXIT LINKAGE >
-*
-         L     13,4(0,13)
-         LM    14,12,12(13)
-         BR    14
+TABLE    DS    32CL38                  Table for storage
+EOT      DS    F                       End of table
+CAPTION  DS    F                       Storage for caption
+NUM1     DC    F'1'                    Storage for NUM1
+NUM2     DC    F'2'                    Storage for NUM2
+PAGECTR  DC    PL2'0'                  Storage for page counter
+BUFFER   DS    80C                     Buffer for input data
+BPARMS   DC    A(TABLE)                Address for table
+         DC    A(EOT)                  Address for end of table
+         DC    A(BUFFER)               Address for buffer
+PPARMS   DC    A(TABLE)                Address for table
+         DC    A(EOT)                  Address for end of table
+         DC    A(NUM1)                 Address for caption
+         DC    A(PAGECTR)              Address for page counter
+PPARMS2  DC    A(TABLE)                Address for table
+         DC    A(EOT)                  Address for end of table
+         DC    A(NUM2)                 Address for NUM2
+         DC    A(PAGECTR)              Address for page counter
+TPARMS   DC    A(TABLE)                Address for table
+         DC    A(EOT)                  Address for end of table
+         DC    A(BUFFER)               Address for buffer
+         DC    A(PAGECTR)              Address for page counter
 *
 ***< RESTORE REGISTERS >
 *
-MAINSAVE DS    18F
+MAINSAVE DS    18F                     Restore registers.
 ***************************************************
 *
 * CSECT: BUILD
 *
-* REGISTER USAGE:
+* REGISTER USAGE: Not enough time to specify.
 *
 ***************************************************
 *
@@ -114,54 +114,54 @@ BUILD    CSECT
 *
 ***< ENTRY LINKAGE>
 *
-         STM   14,12,12(13)
-         LR    12,15
-         USING BUILD,12
-         USING BLABL,2
-         LA    14,BSAVE
-         ST    13,4(0,14)
-         ST    14,8(0,13)
-         LR    13,14
+         STM   14,12,12(13)            Yes, fascinating, here we
+         LR    12,15                   see a wild subroutine entry
+         USING BUILD,12                linkage in it's natural
+         USING BLABL,2                 habitat. It is even using
+         LA    14,BSAVE                the dsect of build labels
+         ST    13,4(0,14)              defined before main. This
+         ST    14,8(0,13)              will allows me to reference
+         LR    13,14                   things more easily. No offsets.
 *
 ***< START LOGIC>
 *
-         LM    2,4,0(1)                UNPACK BPARMS INTO REGISTERS
-LOOP1    XREAD 0(4),80                 READ FROM BUFFER
-         BL    ENDL1                   IF NO DATA STOP LOOP
-         LA    1,0(0,4)                LOAD BUFFER INTO R1
-         MVC   FNAME(10),0(1)          LOAD BUFFER INTO FNAME
-         CLC   FNAME(8),=CL8'IDONOTGO' CHECK IF DELIMETER
-         BE    ENDL1                   STOP IF EQUAL TO DELIM
-         LA    1,12(0,1)               LOAD NEXT 12 BYTES INTO R1
-         MVC   LNAME(10),0(1)          COPY BYTES TO LNAME
-         LA    1,12(0,1)               LOAD NEXT 12 BYTES INTO R1
-         MVC   IDNUM(8),0(1)           COPY BTYES INTO IDNUM
-         LA    1,10(0,1)               LOAD NEXT 10 BYTES
-         MVC   USEME(7),0(1)           COPY BYTES INTO USEME
-         PACK  ACTBAL(4),USEME(7)      PACK BYTES INTO ACTBAL
-         LA    2,32(0,2)               INCREMENT THE TABLE POINTER
-         B     LOOP1                   BRANCH TO TOP
-ENDL1    ST    2,0(0,3)                STORE DATA IN EOT
+         LM    2,4,0(1)                Unpack BPARMS into R2-R4
+LOOP1    XREAD 0(4),80                 Read in from buffer
+         BL    ENDL1                   If no data stop loop
+         LA    1,0(0,4)                Load buffer into R1
+         MVC   FNAME(10),0(1)          Load 10 bytes into fname
+         CLC   FNAME(8),=CL8'IDONOTGO' Check if delimiter
+         BE    ENDL1                   If equals delimiter stop
+         LA    1,12(0,1)               Load bytes into R1
+         MVC   LNAME(10),0(1)          Copy 10 bytes into LNAME
+         LA    1,12(0,1)               Load more bytes into R1
+         MVC   IDNUM(8),0(1)           Copy bytes into IDNUM
+         LA    1,10(0,1)               Load next 10 bytes
+         MVC   USEME(7),0(1)           Move bytes into USEME
+         PACK  ACTBAL(4),USEME(7)      Pack bytes into ACTBAL
+         LA    2,32(0,2)               Increment the table pointer
+         B     LOOP1                   Unconditionally branch to top
+ENDL1    ST    2,0(0,3)                Store data in end of table
 *
 ***< EXIT LINKAGE >
 *
-         L     13,4(0,13)
-         LM    14,12,12(13)
-         BR    14
+         L     13,4(0,13)              The elusive exit linkage.
+         LM    14,12,12(13)            Do not disturb it as it is
+         BR    14                      sleeping. Anyone read these?
 *
 ***< LTORG FOR BUILD>
 *
-         LTORG
-USEME    DS    CL7' '
-*
+         LTORG                         Yay LTORGS. Every external
+USEME    DS    CL7' '                  subroutine needs one. Great
+*                                      for defining variables. Woo.
 ***< RESTORE REGISTERS>
 *
-BSAVE    DS    18F
+BSAVE    DS    18F                     Restore those registers.
 ***************************************************
 *
 * CSECT: PRINT
 *
-* REGISTER USAGE:
+* REGISTER USAGE: Not enough time to specify.
 *
 ***************************************************
 PRINT    CSECT
@@ -178,38 +178,40 @@ PRINT    CSECT
 *
 ***< START LOGIC>
 *
-         LM    2,5,0(1)
-         USING BLABL,2
-         SR    6,6      CLEAR R6
-LOOP2    C     2,0(0,3) SEE IF EOT
-         BE    PEND     GOTO PRINT END
-         C     6,=F'0'  COMPARE R6 TO 0
-         BNE   PSKIP    IF NOT EQUAL BRANCH
-         AP    0(2,5),=PL1'1' INCREMENT PAGE CTR
-         MVC   PPNUM(4),=X'40202120' FORMATTING
-         ED    PPNUM(4),0(5) PAGE NUMBER FORMAT
-         MVC   PPNUM2(4),=X'40202120'
-         ED    PPNUM2(4),0(5)
-         L     6,=F'15'
-         L     9,0(0,4)
-         C     9,=F'2'
-         BE    PRINT2
-         XPRNT PHEAD1,81 PRINT HEADER
-         B     GOTO
-PRINT2   XPRNT PHEAD2,80
-GOTO     XPRNT PHEADA,76 PRINT TABLE HEADER
-PSKIP    MVC   PFNAME(10),FNAME
-         MVC   PLNAME(10),LNAME
-         MVC   PID(8),IDNUM
-         MVC   PBAL(10),=X'4020206B2021204B2020'
-         LA    1,PBAL+6
-         EDMK  PBAL(10),ACTBAL
-         BCTR  1,0
-         MVC   0(1,1),=CL1'$'
-         MVC   PT(2),=CL2' '
-         AP    ACTBAL,=PL1'0'
-         BH    PPRINT
-         MVC   PT(2),=CL2'CR'
+         LM    2,5,0(1)                Load parameters into R2-R5
+         USING BLABL,2                 Use build dsect
+         SR    6,6                     Clear out R6
+LOOP2    C     2,0(0,3)                Check if EOT
+         BE    PEND                    If EOT GOTO print end
+         C     6,=F'0'                 Compare R6 to 0
+         BNE   PSKIP                   If not equal skip ahead
+         AP    0(2,5),=PL1'1'          Increment page counter
+         MVC   PPNUM(4),=X'40202120'   Formatting woo
+         L     6,=F'15'                Load 15 into R6
+         ED    PPNUM(4),0(5)           Page number formatting
+         MVC   PPNUM2(4),=X'40202120'  More formatting
+         ED    PPNUM2(4),0(5)          More formatting
+         C     4,=F'1'                 Compare R4 to 1
+         BE    PRINT1                  If R4 equals 1 goto print1
+         L     9,0(0,4)                Load R4 into R9
+         C     9,=F'2'                 Compare R9 to 2
+         BE    PRINT2                  If R9 is 2 goto print2
+PRINT1   XPRNT PHEAD1,80               Print header
+         B     GOTO1                   Unconditionally goto goto1
+PRINT2   XPRNT PHEAD2,80               Other print header
+GOTO1    XPRNT PHEADA,75               Print table header
+PSKIP    MVC   PFNAME(10),FNAME        Move to fname
+         MVC   PLNAME(10),LNAME        Move to lname
+         MVC   PID(8),IDNUM            Move to id
+         MVC   PBAL(10),=X'4020206B2021204B2020' Formatting
+         LA    1,PBAL+6                Load balance
+         EDMK  PBAL(10),ACTBAL         Format balance
+         BCTR  1,0                     Decrement R1
+         MVC   0(1,1),=CL1'$'          Format dollar sign
+         MVC   PT(2),=CL2' '           Spaces
+         AP    ACTBAL,=PL1'0'          Zero out balance
+         BH    PPRINT                  Branch if higher to pprint
+         MVC   PT(2),=CL2'CR'          Move data
 PPRINT   XPRNT PLINE,78
          AP    PNUM(2),=PL1'1'
          AP    PSUM(4),ACTBAL
@@ -217,24 +219,24 @@ PPRINT   XPRNT PLINE,78
          S     6,=F'1'
          B     LOOP2
 PEND     MVC   PPENDC(4),=X'40202020'
-         ED    PPENDC(4),PNUM FORMAT ACCOUNTS AMOUNT
-         XPRNT PPEND,33 PRINT NUMBER OF ACCOUNTS
+         ED    PPENDC(4),PNUM          FORMAT ACCOUNTS AMOUNT
+         XPRNT PPEND,33                PRINT NUMBER OF ACCOUNTS
          LA    1,PSENDS+6
          MVC   PSENDS(10),=X'4020206B2021204B2020'
-         EDMK  PSENDS(10),PSUM SUM FORMATTING
-         BCTR  1,0  DECREMENET R1
-         MVC   0(1,1),=CL1'$' PUT IN $
-         XPRNT PSEND,35 PRINT THE SUM
-         ZAP   PNTEMP(5),PSUM(4) USE BIGGER NUM
-         DP    PNTEMP(5),PNUM(2) DIV SUM BY ACCNT
+         EDMK  PSENDS(10),PSUM         SUM FORMATTING
+         BCTR  1,0                     DECREMENET R1
+         MVC   0(1,1),=CL1'$'          PUT IN $
+         XPRNT PSEND,35                PRINT THE SUM
+         ZAP   PNTEMP(5),PSUM(4)       USE BIGGER NUM
+         DP    PNTEMP(5),PNUM(2)       DIV SUM BY ACCNT
          LA    1,PFENDT+6
          MVC   PFENDT(7),=X'402021204B2020'
-         EDMK  PFENDT(7),PNTEMP FORMAT AVERAGE
-         BCTR  1,0 DECREMENT R1
-         MVC   0(1,1),=CL1'$'  ADD $
-         XPRNT PFEND,35 PRINT AVERAGE
+         EDMK  PFENDT(7),PNTEMP        FORMAT AVERAGE
+         BCTR  1,0                     DECREMENT R1
+         MVC   0(1,1),=CL1'$'          ADD $
+         XPRNT PFEND,35                PRINT AVERAGE
          ZAP   PNUM(2),=PL1'0'
-         ZAP   PSUM(5),=PL1'0'
+         ZAP   PSUM(4),=PL1'0'
 *
 ***< EXIT LINKAGE >
 *
@@ -247,20 +249,20 @@ PEND     MVC   PPENDC(4),=X'40202020'
          LTORG
 PHEAD1   DC    C'1'
          DC    CL25' '
-         DC    CL23'ORIGINAL CUSTOMER DATA'
+         DC    CL23'Original Customer Data'
          DC    CL22' '
          DC    CL4'PAGE'
          DC    CL1' '
 PPNUM    DS    CL4' '
 PHEAD2   DC    C'1'
          DC    CL25' '
-         DC    CL23' UPDATED CUSTOMER DATA'
+         DC    CL23' Updated Customer Data'
          DC    CL22' '
-         DC    CL4'PAGE'
+         DC    CL4'Page'
          DC    CL1' '
 PPNUM2   DS    CL4' '
-PHEADA   DC    CL44'-First Name            Last Name            '
-         DC    CL32'ID Number                 Balance'
+PHEADA   DC    CL43'-First Name           Last Name            '
+         DC    CL32'ID Number        Account Balance '
 PLINE    DC    CL1'0'
 PFNAME   DS    10C' '
          DC    11C' '
@@ -271,11 +273,11 @@ PID      DS    8C' '
 PBAL     DS    10C' '
          DC    1C' '
 PT       DS    2C' '
-PPEND    DC    CL29'-NUMBER OF CUSTOMERS =      '
+PPEND    DC    CL29'-Number of Customers =      '
 PPENDC   DS    4C' '
-PSEND    DC    CL25'0SUM OF ALL BALANCES =   '
+PSEND    DC    CL25'0Sum of all Balances =   '
 PSENDS   DS    10C' '
-PFEND    DC    CL28'0AVERAGE BALANCE =          '
+PFEND    DC    CL28'0Average Balance =          '
 PFENDT   DS    7C' '
 PNUM     DC    PL2'0'
 PNTEMP   DC    PL5'0'
@@ -289,7 +291,7 @@ PSAVE    DS    18F
 *
 * CSECT: TRANS
 *
-* REGISTER USAGE:
+* REGISTER USAGE: Not enough time to specify.
 *
 ***************************************************
 TRANS    CSECT
@@ -307,26 +309,26 @@ TRANS    CSECT
 *
 ***< START LOGIC>
 *
-         LM    2,5,0(1)
-         LR    6,2
-         AP    0(2,5),=PL1'1'
+         LM    2,5,0(1)                Load parameters
+         LR    6,2                     Save table start in R6
+         AP    0(2,5),=PL1'1'          Increment page number
          MVC   TPAGE(4),=X'40202120'
-         ED    TPAGE(4),0(5)
-         XPRNT THEAD,80
-         XPRNT THEADA,77
-         ZAP   TSC,=PL1'0'
-         ZAP   TEC,=PL1'0'
-TLOOP    XREAD 0(,4),80
-         BL    TEND
-         USING TLABL,4
-         LR    2,6
-         PACK  TNUM(4),CAMOUNT(7)
+         ED    TPAGE(4),0(5)           Formatting
+         XPRNT THEAD,80                Print out heading
+         XPRNT THEADA,77               Print table heading
+         ZAP   TSC,=PL1'0'             Zero out success
+         ZAP   TEC,=PL1'0'             Zero out errors
+TLOOP    XREAD 0(,4),80                Read transactions
+         BL    TEND                    If empty stop
+         USING TLABL,4                 Format transaction
+         LR    2,6                     Reset pointer
+         PACK  TNUM(4),CAMOUNT(7)      Pack transaction amount
          MVC   EAMOUNT(10),=X'4020206B2021204B2020'
          LA    1,EAMOUNT+6
-         EDMK  EAMOUNT(10),TNUM
-         BCTR  1,0
-         MVC   0(1,1),=CL1'$' Add $
-         MVC   TAMOUNT(10),EAMOUNT
+         EDMK  EAMOUNT(10),TNUM        Format transaction
+         BCTR  1,0                     Decrement
+         MVC   0(1,1),=CL1'$'          Add $
+         MVC   TAMOUNT(10),EAMOUNT     Copy the transaction amount
          CLC   CTYPE(1),=CL1'B'
          BE    EBAL
          CLC   CTYPE(1),=CL1'D'
@@ -334,16 +336,18 @@ TLOOP    XREAD 0(,4),80
          CLC   CTYPE(1),=CL1'W'
          BE    EWIT
 *
+***< Add output line types>
+*
 EWIT     MVC   ETYPE(17),=CL17'Withdrawal       '
          MVC   TTYPE(17),ETYPE
          B     TSKIP
-*
 EDEP     MVC   ETYPE(17),=CL17'Deposit          '
          MVC   TTYPE(17),ETYPE
          B     TSKIP
-*
 EBAL     MVC   ETYPE(17),=CL17'Balance Query    '
          MVC   TTYPE(17),ETYPE
+*
+***< START DATE FORMAT >
 *
 TSKIP    DS    0H
          MVC   EID(8),CID
@@ -358,6 +362,9 @@ TSKIP    DS    0H
          MVC   TDATE+3(2),CDAY
          MVC   TDATE+5(1),=C'/'
          MVC   TDATE+6(4),CYEAR
+*
+***< Find account loop>
+*
 FLOOP    DS    0H
          C     2,0(,3)
          BE    TERR
@@ -374,21 +381,33 @@ TYPE     DS    0H
          CLC   CTYPE(1),=CL1'W'
          BE    TBWIT
          B     TEND
+*
+***< Check if credit >
+*
 TBBAL    DS    0H
          AP    ACTBAL,=PL1'0'
          BH    TBEND
          MVC   TT(2),=CL2'CR'
          MVC   TAMOUNT(10),=CL10'             '
          B     TBEND
+*
+***< Subtract transaction>
+*
 TBDEP    DS    0H
          SP    ACTBAL,TNUM
          BH    TBEND
          MVC   TT(2),=CL2'CR'
          B     TBEND
+*
+***< Add transaction>
+*
 TBWIT    DS    0H
          AP    ACTBAL,TNUM
          BH    TBEND
          MVC   TT(2),=CL2'CR'
+*
+***< Format balance>
+*
 TBEND    DS    0H
          MVC   TBAL(10),=X'4020206B2021204B2020'
          LA    1,TBAL+6
@@ -398,6 +417,9 @@ TBEND    DS    0H
          XPRNT TPRINT,80
          AP    TSC,=PL1'1'
          B     TLOOP
+*
+***< Start error section>
+*
 TERR     DS    0H
          XPRNT ERROR,82
          AP    TEC,=PL1'1'
